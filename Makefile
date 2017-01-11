@@ -1,5 +1,5 @@
 errlumina : errlumina.o htsapi.o
-	g++ --std=c++11 errlumina.o htsapi.o -o errlumina
+	g++ --std=c++11 -lhts errlumina.o htsapi.o -o errlumina
 
 htsapi.o : htsapi.h htsapi.cc
 	g++ --std=c++11 -lhts -c htsapi.cc
