@@ -1,6 +1,3 @@
-//TODO: be sure all pointers have the correct destructors from htslib
-//TODO: implement next
-
 #include "samio.h"
 
 SamReader::SamReader(std::string filename){
