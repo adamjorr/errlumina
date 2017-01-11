@@ -1,8 +1,8 @@
-errlumina : errlumina.o htsapi.o
-	g++ --std=c++11 -lhts errlumina.o htsapi.o -o errlumina
+errlumina : errlumina.o samio.o
+	g++ --std=c++11 -lhts errlumina.o samio.o -o errlumina
 
-htsapi.o : htsapi.h htsapi.cc
-	g++ --std=c++11 -lhts -c htsapi.cc
+samio.o : samio.h samio.cc
+	g++ --std=c++11 -lhts -c samio.cc
 
 errlumina.o : errlumina.cc
 	g++ --std=c++11 -c errlumina.cc

@@ -34,7 +34,7 @@ struct bamHdrDeleter{
 	};
 };
 
-class HtsAPI{
+class SamReader{
 protected:
 	std::unique_ptr<samFile,samFileDeleter> in;
 	std::unique_ptr<bam_hdr_t,bamHdrDeleter> header;
@@ -46,16 +46,27 @@ protected:
 	void open(std::string, std::string);
 public:
 	bool has_region();
+	bam_hdr_t* get_header();
 	int next(bam1_t *b);
-	HtsAPI(std::string filename);
-	HtsAPI(std::string filename, std::string region);
+	SamReader(const std::string filename);
+	SamReader(const std::string filename, const std::string region);
+};
+
+class SamWriter{
+protected:
+	std::unique_ptr<samFile,samFileDeleter> outfh;
+	std::unique_ptr<bam_hdr_t,bamHdrDeleter> header;
+public:
+	SamWriter(std::string, bam_hdr_t*);
+	SamWriter(std::string);
+	SamWriter(bam_hdr_t*);
+	SamWriter();
+	void check_open_success(); //void, throws error if not open
+	void write_header(); //throws error if header is null or fails to write
+	void write_read(const bam1_t*);
 };
 
 static bool has_mismatch(bam1_t *b, char *ref, int ref_len);
-
-
-
-
 
 
 
