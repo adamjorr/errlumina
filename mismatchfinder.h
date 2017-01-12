@@ -4,14 +4,24 @@
 #include <memory>
 #include <htslib/hts.h>
 #include <htslib/sam.h>
+#include <htslib/faidx.h>
 #include <string>
 #include "samio.h"
+
+struct FaidxDeleter{
+	FaidxDeleter() {};
+	void operator()(faidx_t* p) const {
+		free(p);
+	};
+};
+
 
 class MismatchFinder{
 protected:
 	SamReader reader;
+	std::unique_ptr<faidx_t, FaidxDeleter> faidx_p;
 public:
-	MismatchFinder(SamReader r) : reader(r);
+	MismatchFinder(SamReader r, std::string ref_name) : reader(r);
 	void dump_mismatches(std::string fileout);
 };
 

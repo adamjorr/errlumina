@@ -1,7 +1,17 @@
 #include "mismatchfinder.h"
 
-MismatchFinder::MismatchFinder(SamReader r) : reader(r) {
+MismatchFinder::MismatchFinder(SamReader r, std::string ref_name) : reader(r) {
+	faidx_t* faidx = fai_load(ref_name.c_str());
+	if (faidx == nulptr){
+		throw std::runtime_error("error");
+	}
+	faidx_p.reset(faidx);
 }
+
+// int len;
+    // ref_file = argc > optind + 1 ? argv[optind+1] : ga.reference;
+    // fai = fai_load(ref_file);
+//     ref = fai_fetch(fai, header->target_name[b->core.tid], &len);
 
 //to get ref and len:
 //https://github.com/samtools/htslib/blob/develop/htslib/faidx.h
