@@ -48,8 +48,10 @@ public:
 	bool has_region();
 	bam_hdr_t* get_header();
 	int next(bam1_t *b);
+	SamReader();
 	SamReader(const std::string filename);
 	SamReader(const std::string filename, const std::string region);
+	SamReader(const SamReader &r);
 };
 
 class SamWriter{
@@ -65,10 +67,5 @@ public:
 	void write_header(); //throws error if header is null or fails to write
 	void write_read(const bam1_t*);
 };
-
-static bool has_mismatch(bam1_t *b, char *ref, int ref_len);
-
-
-
 
 #endif
