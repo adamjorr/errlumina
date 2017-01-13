@@ -3,7 +3,7 @@
 #include <string>
 
 int main(){
-	SamReader reader;
-	MismatchFinder mismatcher(reader,"foo");
+	SamReader reader("testdata/test.sam");
+	MismatchFinder mismatcher(reader,"testdata/test.fa");
 	mismatcher.dump_mismatches("-");
 }
