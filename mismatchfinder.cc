@@ -1,8 +1,8 @@
 #include "mismatchfinder.h"
 
-MismatchFinder::MismatchFinder(SamReader r, std::string ref_name) : reader(r) {
+MismatchFinder::MismatchFinder(SamReader r, std::string ref_name) : reader(r), tid(-2) {
 	faidx_t* faidx = fai_load(ref_name.c_str());
-	if (faidx == nulptr){
+	if (faidx == nullptr){
 		throw std::runtime_error("error");
 	}
 	faidx_p.reset(faidx);
@@ -18,9 +18,13 @@ MismatchFinder::MismatchFinder(SamReader r, std::string ref_name) : reader(r) {
 void MismatchFinder::dump_mismatches(std::string fileout){
 	SamWriter w(this->reader.get_header());
 	bam1_t *b = bam_init1();
+	int ref_len;
 
 	while(this->reader.next(b) >= 0){
-		if (has_mismatch(b, ref, ref_len)){ //TODO: get ref and ref_len somehow
+		if (tid != b->core.tid){
+			ref.reset(fai_fetch(faidx_p.get(),reader.get_header()->target_name[b->core.tid],&ref_len));
+		}
+		if (has_mismatch(b, ref.get(), ref_len)){ //TODO: get ref and ref_len somehow
 			w.write_read(b);
 		}
 	}

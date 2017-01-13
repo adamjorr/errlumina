@@ -11,8 +11,15 @@
 struct FaidxDeleter{
 	FaidxDeleter() {};
 	void operator()(faidx_t* p) const {
-		free(p);
+		fai_destroy(p);
 	};
+};
+
+struct FaiDeleter{
+	FaiDeleter() {};
+	void operator()(char* p) const {
+		free(p);
+	}
 };
 
 
@@ -20,8 +27,10 @@ class MismatchFinder{
 protected:
 	SamReader reader;
 	std::unique_ptr<faidx_t, FaidxDeleter> faidx_p;
+	std::unique_ptr<char, FaiDeleter> ref;
+	int tid;
 public:
-	MismatchFinder(SamReader r, std::string ref_name) : reader(r);
+	MismatchFinder(SamReader r, std::string ref_name);
 	void dump_mismatches(std::string fileout);
 };
 
