@@ -8,29 +8,15 @@
 #include <string>
 #include "samio.h"
 
-struct FaidxDeleter{
-	FaidxDeleter() {};
-	void operator()(faidx_t* p) const {
-		fai_destroy(p);
-	};
-};
-
-struct FaiDeleter{
-	FaiDeleter() {};
-	void operator()(char* p) const {
-		free(p);
-	}
-};
-
-
 class MismatchFinder{
 protected:
-	SamReader reader;
-	std::unique_ptr<faidx_t, FaidxDeleter> faidx_p;
-	std::unique_ptr<char, FaiDeleter> ref;
+	SamReader* reader;
+	faidx_t* faidx_p;
+	char* ref;
 	int tid;
 public:
-	MismatchFinder(SamReader r, std::string ref_name);
+	MismatchFinder(SamReader* r, std::string ref_name);
+	~MismatchFinder();
 	void dump_mismatches(std::string fileout);
 	void dump_mismatches();
 };

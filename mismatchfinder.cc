@@ -1,11 +1,21 @@
 #include "mismatchfinder.h"
 
-MismatchFinder::MismatchFinder(SamReader r, std::string ref_name) : reader(r), tid(-2) {
+MismatchFinder::MismatchFinder(SamReader* r, std::string ref_name) : tid(-2) {
+	reader = r;
 	faidx_t* faidx = fai_load(ref_name.c_str());
 	if (faidx == nullptr){
 		throw std::runtime_error("error");
 	}
-	faidx_p.reset(faidx);
+	faidx_p = faidx;
+}
+
+MismatchFinder::~MismatchFinder(){
+	if (faidx_p != nullptr){
+		fai_destroy(faidx_p);
+	}
+	if (ref != nullptr){
+		free(ref);
+	}
 }
 
 // int len;
@@ -16,18 +26,20 @@ MismatchFinder::MismatchFinder(SamReader r, std::string ref_name) : reader(r), t
 //to get ref and len:
 //https://github.com/samtools/htslib/blob/develop/htslib/faidx.h
 void MismatchFinder::dump_mismatches(std::string fileout){
-	SamWriter w(this->reader.get_header());
-	bam1_t *b = bam_init1();
+	SamWriter w(this->reader->get_header());
+	bam1_t *b = NULL;
+	b = bam_init1();
 	int ref_len;
+	int r;
 
-	while(this->reader.next(b) >= 0){
+	while((r = this->reader->next(b)) >= 0){
 		if (tid != b->core.tid){
-			ref.reset(fai_fetch(faidx_p.get(),reader.get_header()->target_name[b->core.tid],&ref_len));
-			if (ref.get() == nullptr){
+			ref = fai_fetch(faidx_p,this->reader->get_header()->target_name[b->core.tid],&ref_len);
+			if (ref == nullptr){
 				throw std::runtime_error("error getting ref");
 			}
 		}
-		if (has_mismatch(b, ref.get(), ref_len)){ //TODO: get ref and ref_len somehow
+		if (has_mismatch(b, ref, ref_len)){
 			w.write_read(b);
 		}
 	}

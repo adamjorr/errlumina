@@ -1,16 +1,5 @@
 @HD	VN:1.3	SO:coordinate
 @SQ	SN:scaffold_1	LN:40452287
-@SQ	SN:scaffold_2	LN:64476884
-@SQ	SN:scaffold_3	LN:80387009
-@SQ	SN:scaffold_4	LN:42149133
-@SQ	SN:scaffold_5	LN:75003887
-@SQ	SN:scaffold_6	LN:54104404
-@SQ	SN:scaffold_7	LN:52651774
-@SQ	SN:scaffold_8	LN:74631741
-@SQ	SN:scaffold_9	LN:39179122
-@SQ	SN:scaffold_10	LN:39517770
-@SQ	SN:scaffold_11	LN:45683836
-@SQ	SN:NC_022392.1_chloroplast	LN:161076
 @RG	ID:M3a	PL:ILLUMINA	PU:C38W1ACXX.6	LB:M3a	SM:M3a
 @RG	ID:M3b	PL:ILLUMINA	PU:C38W1ACXX.7	LB:M3b	SM:M3b
 @RG	ID:M5c	PL:ILLUMINA	PU:C38W1ACXX.6	LB:M5c	SM:M5c
@@ -35,30 +24,6 @@
 @RG	ID:M6b	PL:ILLUMINA	PU:C38W1ACXX.3	LB:M6b	SM:M6b
 @RG	ID:M4b	PL:ILLUMINA	PU:C38W1ACXX.6	LB:M4b	SM:M4b
 @RG	ID:M4c	PL:ILLUMINA	PU:C38W1ACXX.7	LB:M4c	SM:M4c
-@PG	ID:bwa	PN:bwa	VN:0.7.12-r1039	CL:bwa mem -t 48 -M -R @RG\tID:M3a\tPL:ILLUMINA\tPU:C38W1ACXX.6\tLB:M3a\tSM:M3a consensus1_ver2.fa ../../data/Sample_M3a_index4/M3a_index4_TGACCAAT_L006_R1_001.fastq ../../data/Sample_M3a_index4/M3a_index4_TGACCAAT_L006_R2_001.fastq
-@PG	ID:bwa-7D7884CA	PN:bwa	VN:0.7.12-r1039	CL:bwa mem -t 48 -M -R @RG\tID:M3b\tPL:ILLUMINA\tPU:C38W1ACXX.7\tLB:M3b\tSM:M3b consensus1_ver2.fa ../../data/Sample_M3b_index14/M3b_index14_AGTTCCGT_L007_R1_001.fastq ../../data/Sample_M3b_index14/M3b_index14_AGTTCCGT_L007_R2_001.fastq
-@PG	ID:bwa-379D6FEC	PN:bwa	VN:0.7.12-r1039	CL:bwa mem -t 48 -M -R @RG\tID:M5c\tPL:ILLUMINA\tPU:C38W1ACXX.6\tLB:M5c\tSM:M5c consensus1_ver2.fa ../../data/Sample_M5c_index6/M5c_index6_GCCAATAT_L006_R1_001.fastq ../../data/Sample_M5c_index6/M5c_index6_GCCAATAT_L006_R2_001.fastq
-@PG	ID:bwa-99830C6	PN:bwa	VN:0.7.12-r1039	CL:bwa mem -t 48 -M -R @RG\tID:M2c\tPL:ILLUMINA\tPU:C38W1ACXX.5\tLB:M2c\tSM:M2c consensus1_ver2.fa ../../data/Sample_M2c_index14/M2c_index14_AGTTCCGT_L005_R1_001.fastq ../../data/Sample_M2c_index14/M2c_index14_AGTTCCGT_L005_R2_001.fastq
-@PG	ID:bwa-674D479D	PN:bwa	VN:0.7.12-r1039	CL:bwa mem -t 48 -M -R @RG\tID:M4a\tPL:ILLUMINA\tPU:C38W1ACXX.5\tLB:M4a\tSM:M4a consensus1_ver2.fa ../../data/Sample_M4a_index15/M4a_index15_ATGTCAGA_L005_R1_001.fastq ../../data/Sample_M4a_index15/M4a_index15_ATGTCAGA_L005_R2_001.fastq
-@PG	ID:bwa-376C41EC	PN:bwa	VN:0.7.12-r1039	CL:bwa mem -t 48 -M -R @RG\tID:M7c\tPL:ILLUMINA\tPU:C38W1ACXX.3\tLB:M7c\tSM:M7c consensus1_ver2.fa ../../data/Sample_M7c_index12/M7c_index12_CTTGTAAT_L003_R1_001.fastq ../../data/Sample_M7c_index12/M7c_index12_CTTGTAAT_L003_R2_001.fastq
-@PG	ID:bwa-577A6EDE	PN:bwa	VN:0.7.12-r1039	CL:bwa mem -t 48 -M -R @RG\tID:M5a\tPL:ILLUMINA\tPU:C38W1ACXX.3\tLB:M5a\tSM:M5a consensus1_ver2.fa ../../data/Sample_M5a_index6/M5a_index6_GCCAATAT_L003_R1_001.fastq ../../data/Sample_M5a_index6/M5a_index6_GCCAATAT_L003_R2_001.fastq
-@PG	ID:bwa-274E69E5	PN:bwa	VN:0.7.12-r1039	CL:bwa mem -t 48 -M -R @RG\tID:M8b\tPL:ILLUMINA\tPU:C38W1ACXX.6\tLB:M8b\tSM:M8b consensus1_ver2.fa ../../data/Sample_M8b_index12/M8b_index12_CTTGTAAT_L006_R1_001.fastq ../../data/Sample_M8b_index12/M8b_index12_CTTGTAAT_L006_R2_001.fastq
-@PG	ID:bwa-D68107A	PN:bwa	VN:0.7.12-r1039	CL:bwa mem -t 48 -M -R @RG\tID:M7b\tPL:ILLUMINA\tPU:C38W1ACXX.7\tLB:M7b\tSM:M7b consensus1_ver2.fa ../../data/Sample_M7b_index18/M7b_index18_GTCCGCAC_L007_R1_001.fastq ../../data/Sample_M7b_index18/M7b_index18_GTCCGCAC_L007_R2_001.fastq
-@PG	ID:bwa-24637996	PN:bwa	VN:0.7.12-r1039	CL:bwa mem -t 48 -M -R @RG\tID:M7a\tPL:ILLUMINA\tPU:C38W1ACXX.6\tLB:M7a\tSM:M7a consensus1_ver2.fa ../../data/Sample_M7a_index7/M7a_index7_CAGATCAT_L006_R1_001.fastq ../../data/Sample_M7a_index7/M7a_index7_CAGATCAT_L006_R2_001.fastq
-@PG	ID:bwa-4AA60660	PN:bwa	VN:0.7.12-r1039	CL:bwa mem -t 48 -M -R @RG\tID:M1a\tPL:ILLUMINA\tPU:C38W1ACXX.3\tLB:M1a\tSM:M1a consensus1_ver2.fa ../../data/Sample_M1a_index2/M1a_index2_CGATGTAT_L003_R1_001.fastq ../../data/Sample_M1a_index2/M1a_index2_CGATGTAT_L003_R2_001.fastq
-@PG	ID:bwa-50FC2C84	PN:bwa	VN:0.7.12-r1039	CL:bwa mem -t 48 -M -R @RG\tID:M8a\tPL:ILLUMINA\tPU:C38W1ACXX.5\tLB:M8a\tSM:M8a consensus1_ver2.fa ../../data/Sample_M8a_index19/M8a_index19_GTGAAACG_L005_R1_001.fastq ../../data/Sample_M8a_index19/M8a_index19_GTGAAACG_L005_R2_001.fastq
-@PG	ID:bwa-41484CC7	PN:bwa	VN:0.7.12-r1039	CL:bwa mem -t 48 -M -R @RG\tID:M1c\tPL:ILLUMINA\tPU:C38W1ACXX.6\tLB:M1c\tSM:M1c consensus1_ver2.fa ../../data/Sample_M1c_index2/M1c_index2_CGATGTAT_L006_R1_001.fastq ../../data/Sample_M1c_index2/M1c_index2_CGATGTAT_L006_R2_001.fastq
-@PG	ID:bwa-5A4068A7	PN:bwa	VN:0.7.12-r1039	CL:bwa mem -t 48 -M -R @RG\tID:M6c\tPL:ILLUMINA\tPU:C38W1ACXX.5\tLB:M6c\tSM:M6c consensus1_ver2.fa ../../data/Sample_M6c_index18/M6c_index18_GTCCGCAC_L005_R1_001.fastq ../../data/Sample_M6c_index18/M6c_index18_GTCCGCAC_L005_R2_001.fastq
-@PG	ID:bwa-67B282C8	PN:bwa	VN:0.7.12-r1039	CL:bwa mem -t 48 -M -R @RG\tID:M1b\tPL:ILLUMINA\tPU:C38W1ACXX.5\tLB:M1b\tSM:M1b consensus1_ver2.fa ../../data/Sample_M1b_index13/M1b_index13_AGTCAACA_L005_R1_001.fastq ../../data/Sample_M1b_index13/M1b_index13_AGTCAACA_L005_R2_001.fastq
-@PG	ID:bwa-1060E3E6	PN:bwa	VN:0.7.12-r1039	CL:bwa mem -t 48 -M -R @RG\tID:M8c\tPL:ILLUMINA\tPU:C38W1ACXX.7\tLB:M8c\tSM:M8c consensus1_ver2.fa ../../data/Sample_M8c_index19/M8c_index19_GTGAAACG_L007_R1_001.fastq ../../data/Sample_M8c_index19/M8c_index19_GTGAAACG_L007_R2_001.fastq
-@PG	ID:bwa-7E537CB2	PN:bwa	VN:0.7.12-r1039	CL:bwa mem -t 48 -M -R @RG\tID:M3c\tPL:ILLUMINA\tPU:C38W1ACXX.3\tLB:M3c\tSM:M3c consensus1_ver2.fa ../../data/Sample_M3c_index5/M3c_index5_ACAGTGAT_L003_R1_001.fastq ../../data/Sample_M3c_index5/M3c_index5_ACAGTGAT_L003_R2_001.fastq
-@PG	ID:bwa-35D07EDF	PN:bwa	VN:0.7.12-r1039	CL:bwa mem -t 48 -M -R @RG\tID:M2b\tPL:ILLUMINA\tPU:C38W1ACXX.3\tLB:M2b\tSM:M2b consensus1_ver2.fa ../../data/Sample_M2b_index4/M2b_index4_TGACCAAT_L003_R1_001.fastq ../../data/Sample_M2b_index4/M2b_index4_TGACCAAT_L003_R2_001.fastq
-@PG	ID:bwa-16B9F6AD	PN:bwa	VN:0.7.12-r1039	CL:bwa mem -t 48 -M -R @RG\tID:M5b\tPL:ILLUMINA\tPU:C38W1ACXX.5\tLB:M5b\tSM:M5b consensus1_ver2.fa ../../data/Sample_M5b_index16/M5b_index16_CCGTCCCG_L005_R1_001.fastq ../../data/Sample_M5b_index16/M5b_index16_CCGTCCCG_L005_R2_001.fastq
-@PG	ID:bwa-232CB484	PN:bwa	VN:0.7.12-r1039	CL:bwa mem -t 48 -M -R @RG\tID:M6a\tPL:ILLUMINA\tPU:C38W1ACXX.7\tLB:M6a\tSM:M6a consensus1_ver2.fa ../../data/Sample_M6a_index16/M6a_index16_CCGTCCCG_L007_R1_001.fastq ../../data/Sample_M6a_index16/M6a_index16_CCGTCCCG_L007_R2_001.fastq
-@PG	ID:bwa-4429DD21	PN:bwa	VN:0.7.12-r1039	CL:bwa mem -t 48 -M -R @RG\tID:M2a\tPL:ILLUMINA\tPU:C38W1ACXX.7\tLB:M2a\tSM:M2a consensus1_ver2.fa ../../data/Sample_M2a_index13/M2a_index13_AGTCAACA_L007_R1_001.fastq ../../data/Sample_M2a_index13/M2a_index13_AGTCAACA_L007_R2_001.fastq
-@PG	ID:bwa-8B5266E	PN:bwa	VN:0.7.12-r1039	CL:bwa mem -t 48 -M -R @RG\tID:M6b\tPL:ILLUMINA\tPU:C38W1ACXX.3\tLB:M6b\tSM:M6b consensus1_ver2.fa ../../data/Sample_M6b_index7/M6b_index7_CAGATCAT_L003_R1_001.fastq ../../data/Sample_M6b_index7/M6b_index7_CAGATCAT_L003_R2_001.fastq
-@PG	ID:bwa-1FF92CA5	PN:bwa	VN:0.7.12-r1039	CL:bwa mem -t 48 -M -R @RG\tID:M4b\tPL:ILLUMINA\tPU:C38W1ACXX.6\tLB:M4b\tSM:M4b consensus1_ver2.fa ../../data/Sample_M4b_index5/M4b_index5_ACAGTGAT_L006_R1_001.fastq ../../data/Sample_M4b_index5/M4b_index5_ACAGTGAT_L006_R2_001.fastq
-@PG	ID:bwa-4305B7A5	PN:bwa	VN:0.7.12-r1039	CL:bwa mem -t 48 -M -R @RG\tID:M4c\tPL:ILLUMINA\tPU:C38W1ACXX.7\tLB:M4c\tSM:M4c consensus1_ver2.fa ../../data/Sample_M4c_index15/M4c_index15_ATGTCAGA_L007_R1_001.fastq ../../data/Sample_M4c_index15/M4c_index15_ATGTCAGA_L007_R2_001.fastq
 HWI-ST819R:83:C38W1ACXX:7:1202:10044:67045	163	scaffold_1	1	60	17S84M	=	108	208	GATTTAGTTTTTCCGACCAACATTGACCATAAATAGTTGATATGGTGGCAGCATAGTCAACGTCGATTGTCCTAAATGAGATGGCATTGATGTAGACAACT	@@@DFFFDHHGHGJJJJJIJJJIIJGIIGIJHJIGIHGIJIJJJIDGFHGHHIIJIHJIJJIDHHHFFFEFEEEEEEDDDCDDDDDDDCCCD>CDDCCCDD	NM:i:2	MD:Z:7A23T52	AS:i:74	XS:i:19	RG:Z:M3b
 HWI-ST819R:83:C38W1ACXX:5:2111:10938:14548	163	scaffold_1	1	60	36S65M	=	1	101	ATTTAATCTTAGACCTTTCGATTTAGTTTTTCCGACCAACATTAACCATAAATCGTTGATATGGTGGTAGCATAGTCAACGTCGATTGTCCTAAATGAGAT	@@@FFFFFHHGHHJIHFIGIJJJJJJEGIJEDFFHIBHIGHHJJJJGGIGFGIGIHIJJIJJJG7=E5??BFFFFEBDCCC?AB@BDDAACA>:>@4@C>4	NM:i:1	MD:Z:17A47	AS:i:60	XS:i:22	RG:Z:M2c
 HWI-ST819R:83:C38W1ACXX:5:2304:1925:5165	99	scaffold_1	1	60	22S79M	=	138	238	TTTTTGATTTAGTTTTTCCGACCAACATTGACCATAAATAGTTGATATGGTGGCAGCATAGTCAACGTCGATTGTCCTAAATGAGATGGCATTGATGTAGA	@CCFFFFFHFHHFHGGGIIJFJIJJGJDHGIJJIIIIJJIHHGCGGIIJJHGGIGGIIJJEHGDDHH=CE>AED@CCDACCDDDDDDDDDCCA@CDDEECA	NM:i:2	MD:Z:7A23T47	AS:i:69	XS:i:19	RG:Z:M2c
