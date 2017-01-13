@@ -23,11 +23,18 @@ void MismatchFinder::dump_mismatches(std::string fileout){
 	while(this->reader.next(b) >= 0){
 		if (tid != b->core.tid){
 			ref.reset(fai_fetch(faidx_p.get(),reader.get_header()->target_name[b->core.tid],&ref_len));
+			if (ref.get() == nullptr){
+				throw std::runtime_error("error getting ref");
+			}
 		}
 		if (has_mismatch(b, ref.get(), ref_len)){ //TODO: get ref and ref_len somehow
 			w.write_read(b);
 		}
 	}
+}
+
+void MismatchFinder::dump_mismatches(){
+	dump_mismatches("-");
 }
 
 //see https://github.com/samtools/samtools/blob/1bae2510c2f58e0332b84780b3c6bd438c58ed3c/bam_md.c#L58-L90

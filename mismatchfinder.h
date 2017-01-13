@@ -32,6 +32,7 @@ protected:
 public:
 	MismatchFinder(SamReader r, std::string ref_name);
 	void dump_mismatches(std::string fileout);
+	void dump_mismatches();
 };
 
 static bool has_mismatch(bam1_t *b, char *ref, int ref_len);
