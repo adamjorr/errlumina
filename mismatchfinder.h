@@ -6,6 +6,9 @@
 #include <htslib/sam.h>
 #include <htslib/faidx.h>
 #include <string>
+#include <iostream>
+#include <ostream>
+#include <fstream>
 #include "samio.h"
 
 class MismatchFinder{
@@ -19,13 +22,13 @@ public:
 	~MismatchFinder();
 	void dump_mismatches(std::string fileout);
 	void dump_mismatches();
+	void dump_locations(std::string fileout);
+	void dump_locations();
+	void dump_locations(std::ostream*);
 };
 
 static bool has_mismatch(bam1_t *b, char *ref, int ref_len);
-
-
-
-
+static int mismatch_location(bam1_t *b, char *ref, int ref_len);
 
 
 #endif
