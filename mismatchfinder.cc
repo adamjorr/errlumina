@@ -1,6 +1,6 @@
 #include "mismatchfinder.h"
 
-MismatchFinder::MismatchFinder(SamReader* r, std::string ref_name) : tid(-2) {
+MismatchFinder::MismatchFinder(SamReader* r, std::string ref_name) : tid(-2), ref_len(-1) {
 	reader = r;
 	faidx_t* faidx = fai_load(ref_name.c_str());
 	if (faidx == nullptr){
@@ -30,16 +30,10 @@ void MismatchFinder::dump_mismatches(std::string fileout){
 	w.write_header();
 	bam1_t *b = NULL;
 	b = bam_init1();
-	int ref_len;
 	int r;
 
 	while((r = this->reader->next(b)) >= 0){
-		if (tid != b->core.tid){
-			ref = fai_fetch(faidx_p,this->reader->get_header()->target_name[b->core.tid],&ref_len);
-			if (ref == nullptr){
-				throw std::runtime_error("error getting ref");
-			}
-		}
+		check_tid(b);
 		if (has_mismatch(b, ref, ref_len)){
 			w.write_read(b);
 		}
@@ -53,20 +47,14 @@ void MismatchFinder::dump_mismatches(){
 void MismatchFinder::dump_locations(std::ostream *os){
 	bam1_t *b = NULL;
 	b = bam_init1();
-	int ref_len;
 	int r;
 	int location;
 
 	while((r = this->reader->next(b)) >= 0){
-		if (tid != b->core.tid){
-			ref = fai_fetch(faidx_p,this->reader->get_header()->target_name[b->core.tid],&ref_len);
-			if (ref == nullptr){
-				throw std::runtime_error("error getting ref");
-			}
-		}
+		check_tid(b);
 		location = mismatch_location(b,ref,ref_len);
 		if (location >= 0){
-			*os << location << std::endl;
+			*os << location << "\t" << get_cigar_str(b) << std::endl;
 		}
 	}
 }
@@ -144,4 +132,45 @@ static int mismatch_location(bam1_t *b, char *ref, int ref_len){
 	}
 	return -1;
 }
+
+void MismatchFinder::check_tid(bam1_t* b){
+	if (tid != b->core.tid){
+		ref = fai_fetch(faidx_p,this->reader->get_header()->target_name[b->core.tid],&ref_len);
+		if (ref == nullptr){
+			throw std::runtime_error("error getting ref");
+		}
+	}
+}
+
+std::string get_sequence(bam1_t *b){
+	uint8_t *seq = bam_get_seq(b);
+	int32_t seqlen = b->core.l_qseq;
+	int baseint;
+	char basech;
+	std::string s;
+
+	for (int i = 0; i < seqlen; i++){
+		baseint = bam_seqi(seq, i);
+		basech = seq_nt16_str[baseint];
+		s.push_back(basech);
+	}
+	return s;
+}
+
+std::string get_cigar_str(bam1_t *b){
+	uint32_t *cigar = bam_get_cigar(b);
+	uint32_t cigarlen = b->core.n_cigar;
+	std::string s;
+
+	for (int i = 0; i < cigarlen; i++){
+		uint32_t c = cigar[i];
+		int len = bam_cigar_oplen(c);
+		char op = bam_cigar_opchr(c);
+		s += std::to_string(len);
+		s.push_back(op);
+	}
+	return s;
+}
+
+
 
