@@ -1,4 +1,5 @@
 #include "mismatchfinder.h"
+#include <stdexcept>
 
 MismatchFinder::MismatchFinder(SamReader* r, std::string ref_name) : tid(-2), ref_len(-1) {
 	reader = r;

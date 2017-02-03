@@ -1,4 +1,5 @@
 #include "samio.h"
+#include <stdexcept>
 
 SamReader::SamReader() : in(), header(), idx(), iter(), region(), region_exists(){
 	open("-");
@@ -32,10 +33,10 @@ SamReader::~SamReader(){
 
 //set in and header
 void SamReader::open(std::string filename_in){
-	samFile* htsin = NULL;
+	htsFile* htsin = NULL;
 	bam_hdr_t* htsheader = NULL;
 
-	htsin = sam_open(filename_in.c_str(), "r");
+	htsin = hts_open(filename_in.c_str(), "r");
 	if (htsin == NULL) {
     	//error
         throw std::runtime_error("error, fail to open");
@@ -94,25 +95,25 @@ void SamWriter::check_open_success(){
 }
 
 SamWriter::SamWriter(){
-	this->outfh = sam_open("-", "w");
+	this->outfh = hts_open("-", "w");
 	this->header = nullptr;
 	check_open_success();
 }
 
 SamWriter::SamWriter(std::string filename){
-	this->outfh = sam_open(filename.c_str(), "w");
+	this->outfh = hts_open(filename.c_str(), "w");
 	this->header = nullptr;
 	check_open_success();
 }
 
 SamWriter::SamWriter(bam_hdr_t* h){
-	this->outfh = sam_open("-", "w");
+	this->outfh = hts_open("-", "w");
 	this->header = h;
 	check_open_success();
 }
 
 SamWriter::SamWriter(std::string filename, bam_hdr_t* h){
-	this->outfh = sam_open(filename.c_str(), "w");
+	this->outfh = hts_open(filename.c_str(), "w");
 	this->header = h;
 	check_open_success();
 }

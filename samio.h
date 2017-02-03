@@ -8,7 +8,7 @@
 
 class SamReader{
 protected:
-	samFile* in;
+	htsFile* in;
 	bam_hdr_t* header;
 	hts_idx_t* idx;
 	hts_itr_t* iter;
@@ -28,7 +28,7 @@ public:
 
 class SamWriter{
 protected:
-	samFile* outfh;
+	htsFile* outfh;
 	bam_hdr_t* header;
 public:
 	SamWriter(std::string, bam_hdr_t*);

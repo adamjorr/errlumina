@@ -1,5 +1,5 @@
 #ifndef __ERRLUMINA_MISMATCH_FINDER_INCLUDED__
-#define __ERRLUMINA_MISMATCH_FINER_INCLUDED__
+#define __ERRLUMINA_MISMATCH_FINDER_INCLUDED__
 
 #include <memory>
 #include <htslib/hts.h>
