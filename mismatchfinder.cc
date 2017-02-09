@@ -1,22 +1,7 @@
 #include "mismatchfinder.h"
 #include <stdexcept>
 
-MismatchFinder::MismatchFinder(SamReader* r, std::string ref_name) : tid(-2), ref_len(-1) {
-	reader = r;
-	faidx_t* faidx = fai_load(ref_name.c_str());
-	if (faidx == nullptr){
-		throw std::runtime_error("error");
-	}
-	faidx_p = faidx;
-}
-
-MismatchFinder::~MismatchFinder(){
-	if (faidx_p != nullptr){
-		fai_destroy(faidx_p);
-	}
-	if (ref != nullptr){
-		free(ref);
-	}
+MismatchFinder::MismatchFinder(SamReader* r, std::string ref_name) : tid(-2), ref_len(-1), ref_t(ref_name), reader(r) {
 }
 
 // int len;
@@ -34,8 +19,7 @@ void MismatchFinder::dump_mismatches(std::string fileout){
 	int r;
 
 	while((r = this->reader->next(b)) >= 0){
-		check_tid(b);
-		if (has_mismatch(b, ref, ref_len)){
+		if (has_mismatch(b, ref_t.get_ref(reader->get_ref_name(b)), ref_t.get_ref_len())){
 			w.write_read(b);
 		}
 	}
@@ -52,8 +36,7 @@ void MismatchFinder::dump_locations(std::ostream *os){
 	int location;
 
 	while((r = this->reader->next(b)) >= 0){
-		check_tid(b);
-		location = mismatch_location(b,ref,ref_len);
+		location = mismatch_location(b,ref_t.get_ref(get_region(b)),ref_t.get_ref_len());
 		if (location >= 0){
 			*os << location << "\t" << get_cigar_str(b) << std::endl;
 		}
@@ -132,15 +115,6 @@ static int mismatch_location(bam1_t *b, char *ref, int ref_len){
 		}
 	}
 	return -1;
-}
-
-void MismatchFinder::check_tid(bam1_t* b){
-	if (tid != b->core.tid){
-		ref = fai_fetch(faidx_p,this->reader->get_header()->target_name[b->core.tid],&ref_len);
-		if (ref == nullptr){
-			throw std::runtime_error("error getting ref");
-		}
-	}
 }
 
 std::string get_sequence(bam1_t *b){

@@ -20,6 +20,7 @@ public:
 	bool has_region();
 	bam_hdr_t* get_header();
 	int next(bam1_t *b);
+	std::string get_ref_name(bam1_t* b);
 	SamReader();
 	SamReader(const std::string filename);
 	SamReader(const std::string filename, const std::string region);

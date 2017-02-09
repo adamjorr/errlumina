@@ -14,19 +14,16 @@
 class MismatchFinder{
 protected:
 	SamReader* reader;
+	Reftype ref_t;
 	faidx_t* faidx_p;
-	char* ref;
-	int ref_len;
 	int tid;
 public:
 	MismatchFinder(SamReader* r, std::string ref_name);
-	~MismatchFinder();
 	void dump_mismatches(std::string fileout);
 	void dump_mismatches();
 	void dump_locations(std::string fileout);
 	void dump_locations();
 	void dump_locations(std::ostream*);
-	void check_tid(bam1_t*);
 };
 
 static bool has_mismatch(bam1_t *b, char *ref, int ref_len);
