@@ -36,7 +36,7 @@ void MismatchFinder::dump_locations(std::ostream *os){
 	int location;
 
 	while((r = this->reader->next(b)) >= 0){
-		location = mismatch_location(b,ref_t.get_ref(get_region(b)),ref_t.get_ref_len());
+		location = mismatch_location(b,ref_t.get_ref(get_region(b)).c_str(),ref_t.get_ref_len());
 		if (location >= 0){
 			*os << location << "\t" << get_cigar_str(b) << std::endl;
 		}
@@ -60,6 +60,7 @@ void MismatchFinder::dump_locations(){
 
 
 //see https://github.com/samtools/samtools/blob/1bae2510c2f58e0332b84780b3c6bd438c58ed3c/bam_md.c#L58-L90
+//this is simplified from samtools code, so we'll leave ref as a c_str
 static bool has_mismatch(bam1_t *b, char *ref, int ref_len){
 	uint8_t *seq = bam_get_seq(b);
 	uint32_t *cigar = bam_get_cigar(b);
@@ -89,6 +90,7 @@ static bool has_mismatch(bam1_t *b, char *ref, int ref_len){
 }
 
 //see https://github.com/samtools/samtools/blob/1bae2510c2f58e0332b84780b3c6bd438c58ed3c/bam_md.c#L58-L90
+//this is simplified from samtools code, so we'll leave ref as a c_str
 static int mismatch_location(bam1_t *b, char *ref, int ref_len){
 	uint8_t *seq = bam_get_seq(b);
 	uint32_t *cigar = bam_get_cigar(b);

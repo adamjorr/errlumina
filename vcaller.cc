@@ -11,18 +11,11 @@ void call_variants(){
 
 	bam_plp_t iter = bam_plp_init(&plp_get_read, &reader);
 	while( (pileup = bam_plp_auto(iter,&tid,&pos,&cov)) != nullptr){ //successfully pile up new position
-		char ref = //TODO:get ref allele
+		std::string ref = //TODO:get ref allele
 		std::vector<char> alleles = get_piled_alleles(pileup, cov, ref)//TODO:get array of alt + ref alleles
 		//TODO:call variant(s) using array of alt alleles
 		bcf1_t b = create_vcf_line()//TODO:create vcf entry
 		writer.write_variant(b)//write vcf entry
-	}
-}
-
-char get_ref(SamReader reader, int tid, int pos){
-	ref = fai_fetch(faidx_p,this->reader->get_header()->target_name[b->core.tid],&ref_len);
-	if (ref == nullptr){
-			throw std::runtime_error("error getting ref");
 	}
 }
 

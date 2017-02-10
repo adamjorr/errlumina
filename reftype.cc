@@ -20,10 +20,10 @@ Reftype::~Reftype(){
 	}
 }
 
-char* Reftype::get_ref(std::string region){
+std::string Reftype::get_ref(std::string region){
 	if (region != this->region){
 		this->region = region;
-		ref = fai_fetch_seq(faidx_p,region.c_str(),&ref_len);
+		ref = std::string(fai_fetch_seq(faidx_p,region.c_str(),&ref_len));
 		if (ref == nullptr){
 			throw std::runtime_error("error getting ref");
 		}
