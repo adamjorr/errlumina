@@ -87,9 +87,12 @@ bam_hdr_t* SamReader::get_header(){
 }
 
 std::string SamReader::get_ref_name(bam1_t* b){
-	return std::string(header->target_name[b->core.tid]);
+	return std::string(get_ref_name(b->core.tid));
 }
 
+std::string SamReader::get_ref_name(int tid){
+	return std::string(header->target_name[tid]);
+}
 
 //SamWriter class
 void SamWriter::check_open_success(){

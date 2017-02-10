@@ -4,11 +4,12 @@
 class VCaller{
 protected:
 	SamReader reader;
-	faidx_t* faidx_p;
+	Reftype ref;
 	VCFwriter writer;
 public:
 	VCaller(std::string samfile, std::string reffile, std::string outfile);
-	void call_variants();
+	std::vector<char> call_variants();
+	void pileup_and_call();
 };
 
 

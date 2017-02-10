@@ -3,7 +3,7 @@
 #include "samio.h"
 
 //TODO: something to handle samples in BAM
-void call_variants(){
+void pileup_and_call(){
 	int tid;
 	int pos;
 	int cov;
@@ -11,12 +11,16 @@ void call_variants(){
 
 	bam_plp_t iter = bam_plp_init(&plp_get_read, &reader);
 	while( (pileup = bam_plp_auto(iter,&tid,&pos,&cov)) != nullptr){ //successfully pile up new position
-		std::string ref = //TODO:get ref allele
-		std::vector<char> alleles = get_piled_alleles(pileup, cov, ref)//TODO:get array of alt + ref alleles
+		char refbase = ref.get_ref(reader.get_ref_name(tid))[pos];//get ref allele
+		std::vector<char> alleles = get_piled_alleles(pileup, cov, refbase)//get array of alt + ref alleles
 		//TODO:call variant(s) using array of alt alleles
 		bcf1_t b = create_vcf_line()//TODO:create vcf entry
 		writer.write_variant(b)//write vcf entry
 	}
+}
+
+std::vector<char> call_variants(std::vector<char> alleles){
+	
 }
 
 //possible optimization: store sequence strings in a hash w/ alignment, throw out of hash once no longer in pileup
