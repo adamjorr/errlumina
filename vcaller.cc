@@ -20,7 +20,45 @@ void pileup_and_call(){
 }
 
 std::vector<char> call_variants(std::vector<char> alleles){
-	
+	int coverage = alleles.size();
+	float threshold = .4;
+	std::map<char, int> counts;
+	for(auto it = alleles.begin(); it != alleles.end(); ++it){
+		if (counts.count(it->first) == 0){
+			it->second = 1;
+		}
+		else{
+			it->second += 1;
+		}
+	}
+
+	for(auto it = counts.begin(); it != counts.end(); ++it){
+		if (it->second > threshhold){
+			//it's a variant!
+		}
+	}
+
+
+}
+
+//TODO: cache this somewhere or we're gonna be slow
+float binomial_cdf(int successes, int trials, float p){
+	float cdf = 0.0;
+	for(int i = 0; i < k; i++){
+		cdf += binomial_coeff(trials, i) * (p ** i) * (1 - p) ** (trials - i);
+	}
+}
+
+//n choose k
+int binomial_coeff(int n, int k){
+	if (k > n){
+		throw std::runtime_error("error calculating binomial with n = " << n << " and k = " << k << std::endl);
+	}
+	int product = 1;
+	for(int i=1; i <= k; i++){
+		product *= ((n + 1 - i) / i);
+	}
+	return product;
 }
 
 //possible optimization: store sequence strings in a hash w/ alignment, throw out of hash once no longer in pileup
