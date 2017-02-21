@@ -42,15 +42,19 @@ std::vector<char> call_variants(std::vector<char> alleles){
 }
 
 //TODO: cache this somewhere or we're gonna be slow
-float binomial_cdf(int successes, int trials, float p){
-	float cdf = 0.0;
+static long double binomial_cdf(int successes, int trials, long double p){
+	long double cdf = 0.0;
 	for(int i = 0; i < k; i++){
-		cdf += binomial_coeff(trials, i) * (p ** i) * (1 - p) ** (trials - i);
+		cdf += binomial_pdf(i, trials, p);
 	}
 }
 
+static long double binomial_pdf(int successes, int trials, long double p){
+	return binomial_coeff(trials, successes) * (p ** successes) * (1 - p) ** (trials - successes);
+}
+
 //n choose k
-int binomial_coeff(int n, int k){
+static int binomial_coeff(int n, int k){
 	if (k > n){
 		throw std::runtime_error("error calculating binomial with n = " << n << " and k = " << k << std::endl);
 	}
@@ -59,6 +63,40 @@ int binomial_coeff(int n, int k){
 		product *= ((n + 1 - i) / i);
 	}
 	return product;
+}
+
+static long double p_incorrect_call(int count, int coverage, long double error){
+	long double probability = 0.0;
+	for (int i = count; i <= coverage; ++i){
+		probability += binomial_pdf(i, coverage, error)
+	}
+	return probability;
+}
+
+static int p_threshold(int coverage, long double error, long double cutoff_error){
+	//returns the minimum count such that the probability of an erronious call is less than cutoff_error
+	for (int i = 0; i <= coverage; i++){
+		if (p_incorrect_call(i,coverage,error) < cutoff_error){
+			return i;
+		}
+	}
+	return 0;
+}
+
+std::vector<int> calculate_threshold(){
+	std::vector<int> cutoffs();
+	cutoffs.reserve(128);
+
+}
+
+int get_cutoff(int coverage){
+	int maxindex = cutoffs.size() - 1;
+	if (coverage > maxindex){
+		for(int i = maxindex; i <= coverage; ++i){
+			cutoffs[i] = p_threshold(i, error, cutoff_error);
+		}
+	}
+	return cutoffs[coverage];
 }
 
 //possible optimization: store sequence strings in a hash w/ alignment, throw out of hash once no longer in pileup
