@@ -83,15 +83,10 @@ static int p_threshold(int coverage, long double error, long double cutoff_error
 	return 0;
 }
 
-std::vector<int> calculate_threshold(){
-	std::vector<int> cutoffs();
-	cutoffs.reserve(128);
-
-}
-
 int get_cutoff(int coverage){
 	int maxindex = cutoffs.size() - 1;
 	if (coverage > maxindex){
+		cutoffs.reserve(coverage + 1);
 		for(int i = maxindex; i <= coverage; ++i){
 			cutoffs[i] = p_threshold(i, error, cutoff_error);
 		}
