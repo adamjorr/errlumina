@@ -12,33 +12,29 @@ void pileup_and_call(){
 	bam_plp_t iter = bam_plp_init(&plp_get_read, &reader);
 	while( (pileup = bam_plp_auto(iter,&tid,&pos,&cov)) != nullptr){ //successfully pile up new position
 		char refbase = ref.get_ref(reader.get_ref_name(tid))[pos];//get ref allele
-		std::vector<char> alleles = get_piled_alleles(pileup, cov, refbase)//get array of alt + ref alleles
-		//TODO:call variant(s) using array of alt alleles
-		bcf1_t b = create_vcf_line()//TODO:create vcf entry
-		writer.write_variant(b)//write vcf entry
+		std::vector<char> alleles = get_piled_alleles(pileup, cov)//get array of alt + ref alleles
+		std::vector<char> variants = call_variants(alleles);//call variant(s) using array of alt alleles
+		bcf1_t* b = create_vcf_line(writer.header, refbase, variants);//TODO:create vcf entry
+		writer.write_variant(b);//write vcf entry
+		bcf_destroy(b);//deallocate bcf
 	}
 }
 
 std::vector<char> call_variants(std::vector<char> alleles){
 	int coverage = alleles.size();
-	float threshold = .4;
+	int cutoff = get_cutoff(coverage);
 	std::map<char, int> counts;
+	std::vector<char> variants;
 	for(auto it = alleles.begin(); it != alleles.end(); ++it){
-		if (counts.count(it->first) == 0){
-			it->second = 1;
-		}
-		else{
-			it->second += 1;
-		}
+		counts[*it] = counts[*it] + 1;
 	}
 
 	for(auto it = counts.begin(); it != counts.end(); ++it){
-		if (it->second > threshhold){
-			//it's a variant!
+		if (it->second >= cutoff){ //it's a variant!
+			variants.push_back(it->first)
 		}
 	}
-
-
+	return variants;
 }
 
 //TODO: cache this somewhere or we're gonna be slow
@@ -47,6 +43,7 @@ static long double binomial_cdf(int successes, int trials, long double p){
 	for(int i = 0; i < k; i++){
 		cdf += binomial_pdf(i, trials, p);
 	}
+	return cdf;
 }
 
 static long double binomial_pdf(int successes, int trials, long double p){
@@ -95,21 +92,25 @@ int get_cutoff(int coverage){
 }
 
 //possible optimization: store sequence strings in a hash w/ alignment, throw out of hash once no longer in pileup
-std::vector<char> get_piled_alleles(bam_pileup1_t* pileup, int cov, char ref){
+std::vector<char> get_piled_alleles(bam_pileup1_t* pileup, int cov){
 	std::vector<char> alleles();
-	alleles.reserve(cov + 1);
-	alleles[0] = ref;
+	alleles.reserve(cov);
 	for (i = 0; i < cov; i++){
 		bam1_t* alignment = pileup[i].b;
 		uint8_t *seq = bam_get_seq(alignment);
 		int pos = pileup[i].qpos;
 		int baseint = bam_seqi(seq,pos)
-		alleles[i + 1] = seq_nt16_str[baseint];
+		alleles[i] = seq_nt16_str[baseint];
 	}
 	return alleles;
 }
 
-bcf1_t create_vcf_line(bcf_hdr_t *hdr, std::vector<char> alleles){
+//TODO:
+bcf1_t* create_vcf_line(bcf_hdr_t *hdr, char ref, std::vector<char> variants){
+	bcf1_t* line = bcf_init1();
+	std::vector<char> alleles {ref};
+	alleles.insert(alleles.end(),variants.begin(),variants.end());
+	bcf_update_alleles(hdr, line, &alleles[0],alleles.size());
 
 }
 
